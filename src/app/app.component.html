@@ -1,0 +1,10 @@
+<app-posts-list>
+<app-post [title]="post.title" 
+  [body]="post.body" 
+  [likeCount]="post.likeCount"
+  (likeCountChange)="postsService.updateLikeCount(post.id, $event)"
+  *ngFor="let post of postsService.posts"
+  [author]="getAuthorName(post.userId)"
+  [date]="post.date">
+  </app-post> 
+</app-posts-list>
