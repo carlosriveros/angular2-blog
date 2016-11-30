@@ -14,7 +14,9 @@ export class AppComponent {
     this.postsService.getPosts();
   }
 
-  getAuthorName(id) {
+query: string = '';
+
+  getAuthorName(id) { console.log('id', this.usersService.users[id])
     return this.usersService.users[id] ?
     this.usersService.users[id].name :
      'n/a';

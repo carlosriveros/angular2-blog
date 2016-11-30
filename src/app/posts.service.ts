@@ -11,38 +11,46 @@ export class PostsService {
   constructor(private serverService: ServerService,
   private usersService: UsersService) { }
 
-    getPosts() {
-            this.serverService
-            .get('https://jsonplaceholder.typicode.com/posts')
-            .map(posts => this.normalizesPosts(posts))
-            .do(posts => this.fetchUsers(posts))
-            .subscribe(posts => {
-              this.posts = posts
-            })
-          }
+  getPosts() {
+    this.serverService
+    .get('https://jsonplaceholder.typicode.com/posts')
+    .map(posts => this.normalizesPosts(posts))
+    .do(posts => this.fetchUsers(posts))
+    .subscribe(posts => {
+      this.posts = posts
+    })
+  }
 
 
-fetchUsers(posts) {
-  posts.forEach(post => {
-      this.usersService.getUser(post.userId)
-  })
-}
-      
-normalizesPosts(posts) {
-  return posts.map(this.normalizesPost)
-}
+  getFilteredPost(query: string) {
+    if(!this.posts) { return []}
+    return this.posts.filter(post => {
+      return post.title.toLowerCase().includes(query.toLowerCase())
+    })
+  }
 
-    normalizesPost(post) {
+  fetchUsers(posts) {
+    const ids = new Set(posts.map(post => post.userId));
+    Array.from(ids)
+    .forEach(id => {
+        this.usersService.getUser(id)
+    })
+  }
+        
+  normalizesPosts(posts) {
+    return posts.map(this.normalizesPost)
+  }
+
+  normalizesPost(post) {
       return Object.assign({}, post, {
         likeCount: 0,
         date: new Date()
       })
-    }
-    
-
-    updateLikeCount(id, likeCount) {
+  }
+      
+  updateLikeCount(id, likeCount) {
     const index = this.posts.findIndex(post => id === post.id);
     this.posts[index].likeCount = likeCount;
-    }
+  }
 
 }
