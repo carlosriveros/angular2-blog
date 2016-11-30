@@ -1,12 +1,2 @@
-<app-search-bar (search)="query = $event"></app-search-bar>
-<app-posts-list>
-<app-post 
-  [title]="post.title" 
-  [body]="post.body" 
-  [likeCount]="post.likeCount"
-  (likeCountChange)="postsService.updateLikeCount(post.id, $event)"
-  *ngFor="let post of postsService.getFilteredPost(query)"
-  [author]="getAuthorName(post.userId)"
-  [date]="post.date">
-  </app-post> 
-</app-posts-list>
+<router-outlet></router-outlet>
+

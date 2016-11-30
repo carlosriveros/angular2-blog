@@ -10,6 +10,7 @@ export class PostComponent implements OnInit {
   @Input() body: string;
   @Input() author: string;
   @Input() date: string;
+  @Input() id: number;
 
   @Input() likeCount: number;
 
