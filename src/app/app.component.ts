@@ -9,6 +9,8 @@ import {UsersService} from './users.service'
 })
 export class AppComponent {
 
- 
+ constructor (private postsService: PostsService) {
+this.postsService.getPosts();
+ }
 
 }

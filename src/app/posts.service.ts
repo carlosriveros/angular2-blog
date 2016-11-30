@@ -11,6 +11,14 @@ export class PostsService {
   constructor(private serverService: ServerService,
   private usersService: UsersService) { }
 
+  getPost(id: number) {
+     return this.serverService
+    .get(`https://jsonplaceholder.typicode.com/posts/${id}`)
+    .map(post => this.normalizesPost(post))
+    .do(post => this.fetchUser(post.userId))
+    //return this.posts.find(post => post.id === id)
+  }
+
   getPosts() {
     this.serverService
     .get('https://jsonplaceholder.typicode.com/posts')
@@ -29,11 +37,15 @@ export class PostsService {
     })
   }
 
+fetchUser(id) {
+    return  this.usersService.getUser(id)
+  }
+
   fetchUsers(posts) {
     const ids = new Set(posts.map(post => post.userId));
     Array.from(ids)
     .forEach(id => {
-        this.usersService.getUser(id)
+        this.fetchUser(id)
     })
   }
         
